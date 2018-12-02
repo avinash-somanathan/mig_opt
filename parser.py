@@ -38,7 +38,11 @@ for line in file:
     if "Primary" in line:
         Id = line.split(':')[1].strip().split(' ')
         for name in Id:
-            newNode = node(name, "Input")
+            if "input" in line:
+                newNode = node(name, "Input")
+            else:
+                newNode = node(name, "Output")
+                
             pNtk.insertNodes(newNode)
 
             
