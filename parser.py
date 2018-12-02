@@ -60,11 +60,11 @@ for line in file:
             if not exist:
                 tempNode = node(nodeDet[0], "Node")
                 
-            if nodeDet[1] != None:
+            if nodeDet[1] != '':
                 for fin in nodeDet[1].strip().split(' '):
-                   tempNode.insertFin(fin.split('-')[0])
+                    tempNode.insertFin([fin.split('-')[0], fin.split('-')[1]])
 
-            if nodeDet[2] != None:
+            if nodeDet[2] != '':
                 for fout in nodeDet[2].strip().split(' '):
                     tempNode.insertFout(fout.split('-')[0])
             if not exist:
