@@ -3,10 +3,22 @@ class network:
         self.PI = list()
         self.PO = list()
         self.nodes = dict()
+        self.nodesLevel = dict()
         self.nodeNum = 0
+        self.maxLevel = 0
         
     def insertNodes(self, node):
         self.nodes[node.name] = node
+        
+        if node.level > self.maxLevel:
+            self.maxLevel = node.level
+                
+        
+        if not self.nodesLevel.has_key(node.level):
+            self.nodesLevel[node.level] = list()
+            
+        self.nodesLevel[node.level].append(node)
+        
         if(node.nodeType != "const"):
             self.nodeNum = self.nodeNum + 1;
             
@@ -33,13 +45,13 @@ class network:
             return self.nodes[int(name)]
         
 class node:
-    def __init__(self, name, nodeType):
+    def __init__(self, name, nodeType, level):
         self.name = int(name)
         self.nodeType = nodeType;
         self.Fin = list()
         self.Fout = list()
         self.value = 0
-        self.level = 0
+        self.level = level
         
     def insertFin(self, finNode):
         self.Fin.append(finNode)
@@ -65,10 +77,10 @@ if __name__ == '__main__':
             for name in Id:
                 if "input" in line:
                     pNtk.PI.append(name)
-                    newNode = node(name, "Input")
+                    newNode = node(name, "Input", 0)
                 else:
                     pNtk.PO.append(name)
-                    newNode = node(name, "Output")
+                    newNode = node(name, "Output", 0)
                     
                 pNtk.insertNodes(newNode)
         
@@ -79,8 +91,7 @@ if __name__ == '__main__':
             else:
                 (exist, tempNode) = pNtk.exists(nodeDet[0])
                 if not exist:
-                    tempNode = node(nodeDet[0], "AND")
-                tempNode.level = int(nodeDet[3])
+                    tempNode = node(nodeDet[0], "AND", int(nodeDet[3]))
                 if nodeDet[1] != '':
                     for fin in nodeDet[1].strip().split(' '):
                         tempNode.insertFin([fin.split('-')[0], fin.split('-')[1]])
@@ -91,5 +102,3 @@ if __name__ == '__main__':
                 if not exist:
                     pNtk.insertNodes(tempNode)
     file.close()              
-    pNtk.printNodes()
-    #pNtk.numberOfNodes()
