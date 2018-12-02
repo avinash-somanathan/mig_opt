@@ -15,7 +15,7 @@ class network:
         keys = self.nodes.keys()
         keys.sort()
         for node in keys:
-            print (str(self.nodes[node].name)+" "+str(self.nodes[node].Fin)+" "+str(self.nodes[node].Fout))
+            print (str(self.nodes[node].name)+" "+str(self.nodes[node].Fin)+" "+str(self.nodes[node].Fout)+" "+str(self.nodes[node].level))
         return
             
     def exists(self, searchNode):
@@ -80,7 +80,7 @@ if __name__ == '__main__':
                 (exist, tempNode) = pNtk.exists(nodeDet[0])
                 if not exist:
                     tempNode = node(nodeDet[0], "AND")
-                    
+                tempNode.level = int(nodeDet[3])
                 if nodeDet[1] != '':
                     for fin in nodeDet[1].strip().split(' '):
                         tempNode.insertFin([fin.split('-')[0], fin.split('-')[1]])
