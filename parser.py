@@ -1,9 +1,12 @@
 class network:
     def __init__(self):
         self.nodes = list();
+        self.nodeNum = 0;
         
     def insertNodes(self, node):
         self.nodes.append(node)
+        if(node.nodeType == "const"):
+            self.nodeNum = self.nodeNum + 1;
     
     def printNodes(self):
         for node in self.nodes:
@@ -14,6 +17,9 @@ class network:
             if(node.name == searchNode):
                 return True, node
         return False , None
+        
+    def numberOfNodes(self):
+        print self.nodeNum;
         
 class node:
     def __init__(self, name, nodeType):
@@ -58,7 +64,7 @@ for line in file:
         else:
             (exist, tempNode) = pNtk.exists(nodeDet[0])
             if not exist:
-                tempNode = node(nodeDet[0], "Node")
+                tempNode = node(nodeDet[0], "AND")
                 
             if nodeDet[1] != '':
                 for fin in nodeDet[1].strip().split(' '):
