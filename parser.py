@@ -7,8 +7,14 @@ class network:
     
     def printNodes(self):
         for node in self.nodes:
-            print node.name
-    
+            print (node.name+" "+str(node.Fin)+" "+str(node.Fout))
+            
+    def exists(self, searchNode):
+        for node in self.nodes:
+            if(node.name == searchNode):
+                return True, node
+        return False , None
+        
 class node:
     def __init__(self, name, nodeType):
         self.name = name
@@ -44,7 +50,24 @@ for line in file:
                 newNode = node(name, "Output")
                 
             pNtk.insertNodes(newNode)
-
-            
+    
+    else:
+        nodeDet = line.strip().split(':')
+        if nodeDet[0] == "0":
+            continue
+        else:
+            (exist, tempNode) = pNtk.exists(nodeDet[0])
+            if not exist:
+                tempNode = node(nodeDet[0], "Node")
                 
-pNtk.printNodes()
+            if nodeDet[1] != None:
+                for fin in nodeDet[1].strip().split(' '):
+                   tempNode.insertFin(fin.split('-')[0])
+
+            if nodeDet[2] != None:
+                for fout in nodeDet[2].strip().split(' '):
+                    tempNode.insertFout(fout.split('-')[0])
+            if not exist:
+                pNtk.insertNodes(tempNode)
+               
+print(pNtk.printNodes())
