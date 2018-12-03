@@ -43,6 +43,7 @@ class network:
     def deleteNode(self, name):
         if int(name) in self.nodes:
             del self.nodes[int(name)]
+			self.nodeNum = self.nodeNum - 1;
         
     def getNode(self, name):
         if int(name) in self.nodes:

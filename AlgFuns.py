@@ -4,7 +4,6 @@ class AlgFuns:
 		pass
 	
 	def Majority(self,network,node):
-		pdb.set_trace()
 		for i,fin in enumerate(node.Fin):
 			cur0 = node.Fin[i%3]
 			cur1 = node.Fin[(i+1)%3]

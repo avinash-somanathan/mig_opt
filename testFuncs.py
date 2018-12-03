@@ -20,6 +20,8 @@ if __name__=='__main__':
 	newNode.insertFin(pNtk.getNode(0))
 	newNode.insertFin(pNtk.getNode(0))
 	newNode.insertFin(pNtk.getNode(1))
+	pNtk.getNode(0).insertFout(newNode)
+	pNtk.getNode(1).insertFout(newNode)
 	pNtk.insertNodes(newNode)
 	
 	newNode=parser.node(5,"AND",2)
@@ -27,6 +29,8 @@ if __name__=='__main__':
 	newNode.insertFin(pNtk.getNode(1))
 	newNode.insertFin(pNtk.getNode(4))
 	pNtk.getNode(4).insertFout(newNode)
+	pNtk.getNode(1).insertFout(newNode)
+	pNtk.getNode(2).insertFout(newNode)
 	pNtk.insertNodes(newNode)
 	pNtk.numberOfNodes()
 	fun.AlgFuns().Majority(pNtk, pNtk.getNode(4))
