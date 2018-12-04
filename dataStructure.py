@@ -48,7 +48,7 @@ class network:
         
         
     def numberOfNodes(self):
-        print self.nodeNum;
+        print (self.nodeNum);
         return
         
     def getNode(self, name):
