@@ -25,9 +25,24 @@ class network:
 	
 	def printNodes(self):
 		keys = self.nodes.keys()
-		keys.sort()
+		# keys.sort()
 		for node in keys:
-			print (str(self.nodes[node].name)+" "+str(self.nodes[node].Fin)+" "+str(self.nodes[node].Fout)+" "+str(self.nodes[node].level))
+			print ("Node: "+str(self.nodes[node].name)+" Fin: "+str(self.nodes[node].Fin)+" Fout: "+str(self.nodes[node].Fout)+" level: "+str(self.nodes[node].level))
+		return
+		
+	def printNodesExt(self,node):
+		if(node.nodeType == 'AND'):
+			s = 'Maj('+self.printNodesExt(node.Fin[0])+', '+self.printNodesExt(node.Fin[1])+', '+self.printNodesExt(node.Fin[2])+')'
+		elif(node.nodeType == 'INV'):
+			s = 'INV('+self.printNodesExt(node.Fin[0])+')'
+		else:
+			s = node.literal
+		
+		return s
+		# keys.sort()
+		
+		for node in keys:
+			print ("Node: "+str(self.nodes[node].name)+" Fin: "+str(self.nodes[node].Fin)+" Fout: "+str(self.nodes[node].Fout)+" level: "+str(self.nodes[node].level))
 		return
 			
 	def exists(self, searchNode):
@@ -70,12 +85,13 @@ class node:
 	def setLevel(self, level):
 		self.level = level
 		
+import pdb
 		
 if __name__ == '__main__':		
 	file = open("networkOut.out",'r')
 	
 	pNtk = network()
-	
+	pdb.set_trace()
 	for line in file:
 		if "Primary" in line:
 			Id = line.split(':')[1].strip().split(' ')
