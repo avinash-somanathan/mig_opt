@@ -1,4 +1,5 @@
 import NtkParser as parser
+import pdb
 class AlgFuns:
 	def __init__(self):
 		pass
@@ -24,7 +25,7 @@ class AlgFuns:
 			
 			
 	def exchg(self,node, node_):
-		for n in node.Fout:
-			for in_node in n.Fin:
+		for i,n in enumrate(node.Fout):
+			for j,in_node in enumrate(n.Fin):
 				if(in_node.name == node.name):
-					in_node = node_
+					node.Fout[i].Fin[j] = node_
