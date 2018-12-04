@@ -33,8 +33,10 @@ if __name__=='__main__':
 	pNtk.getNode(2).insertFout(newNode)
 	pNtk.insertNodes(newNode)
 	print("Nodes currently present :"+str(pNtk.numberOfNodes()))
+	print(pNtk.printNodesExt(pNtk.getNode(5)))
 	fun.AlgFuns().Majority(pNtk, pNtk.getNode(4))
 	print("Nodes reduced after Majority :"+str(pNtk.numberOfNodes()))
+	print(pNtk.printNodesExt(pNtk.getNode(5)))
 	fun.AlgFuns().Inversion(pNtk,pNtk.getNode(5))
 	print("After Adding inversion logic to node5 number of nodes :"+str(pNtk.numberOfNodes()))
 	
