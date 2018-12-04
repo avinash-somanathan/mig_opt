@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Dec  2 23:57:49 2018
+
+@author: abhay
+"""
+
 class network:
     def __init__(self):
         self.PI = list()
@@ -6,9 +13,11 @@ class network:
         self.nodesLevel = dict()
         self.nodeNum = 0
         self.maxLevel = 0
+        self.nextNode = 1
         
     def insertNodes(self, node):
         self.nodes[node.name] = node
+        self.nextNode = self.nextNode+1
         
         if node.level > self.maxLevel:
             self.maxLevel = node.level
@@ -19,7 +28,7 @@ class network:
             
         self.nodesLevel[node.level].append(node)
         
-        if(node.nodeType != "const"):
+        if(node.nodeType != "CONST"):
             self.nodeNum = self.nodeNum + 1;
             
     
@@ -27,7 +36,9 @@ class network:
         keys = self.nodes.keys()
         keys.sort()
         for node in keys:
-            print (str(self.nodes[node].name)+" "+str(self.nodes[node].Fin)+" "+str(self.nodes[node].Fout)+" "+str(self.nodes[node].level))
+            #print (str(self.nodes[node].name)+" "+str(self.nodes[node].Fin)+" "+str(self.nodes[node].Fout)+" "+str(self.nodes[node].level)+" "+str(self.nodes[node].nodeType))
+            print ('{0:5} {1:70} {2:30} {3:20} {4:10}'.format(self.nodes[node].name, self.nodes[node].Fin, self.nodes[node].Fout, self.nodes[node].level, self.nodes[node].nodeType))
+            #print(f'{keys:5} keys')
         return
             
     def exists(self, searchNode):
@@ -43,6 +54,16 @@ class network:
     def getNode(self, name):
         if self.nodes.has_key(int(name)):
             return self.nodes[int(name)]
+    
+    def printNodesExt(self,node):
+		if(node.nodeType == 'AND'):
+			s = 'Maj('+self.printNodesExt(node.Fin[0])+', '+self.printNodesExt(node.Fin[1])+', '+self.printNodesExt(node.Fin[2])+')'
+		elif(node.nodeType == 'INV'):
+			s = 'INV('+self.printNodesExt(node.Fin[0])+')'
+		else:
+			s = node.literal
+		
+		return s
         
 class node:
     def __init__(self, name, nodeType, level):
@@ -64,41 +85,6 @@ class node:
     
     def setLevel(self, level):
         self.level = level
-        
-        
-if __name__ == '__main__':        
-    file = open("networkOut.out",'r')
-    
-    pNtk = network()
-    
-    for line in file:
-        if "Primary" in line:
-            Id = line.split(':')[1].strip().split(' ')
-            for name in Id:
-                if "input" in line:
-                    pNtk.PI.append(name)
-                    newNode = node(name, "Input", 0)
-                else:
-                    pNtk.PO.append(name)
-                    newNode = node(name, "Output", 0)
-                    
-                pNtk.insertNodes(newNode)
-        
-        else:
-            nodeDet = line.strip().split(':')
-            if nodeDet[0] == "0":
-                continue
-            else:
-                (exist, tempNode) = pNtk.exists(nodeDet[0])
-                if not exist:
-                    tempNode = node(nodeDet[0], "AND", int(nodeDet[3]))
-                if nodeDet[1] != '':
-                    for fin in nodeDet[1].strip().split(' '):
-                        tempNode.insertFin([fin.split('-')[0], fin.split('-')[1]])
-    
-                if nodeDet[2] != '':
-                    for fout in nodeDet[2].strip().split(' '):
-                        tempNode.insertFout(fout.split('-')[0])
-                if not exist:
-                    pNtk.insertNodes(tempNode)
-    file.close()              
+
+def createNode(name, nodeType, level):
+    return node(name, nodeType, level)

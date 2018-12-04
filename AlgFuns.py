@@ -9,7 +9,7 @@ class AlgFuns:
 			cur0 = node.Fin[i%3]
 			cur1 = node.Fin[(i+1)%3]
 			cur2 = node.Fin[(i+2)%3]
-			if (cur0.literal == cur1.literal):
+			if (cur0.name == cur1.name):
 				pdb.set_trace()
 				if(cur0.nodeType == cur1.nodeType):
 					self.exchg(node, cur1)
