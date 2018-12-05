@@ -48,8 +48,7 @@ class network:
 		
 		
 	def numberOfNodes(self):
-		print (self.nodeNum);
-		return
+		return self.nodeNum
 		
 	def getNode(self, name):
 		if int(name) in self.nodes:
