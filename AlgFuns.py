@@ -28,31 +28,35 @@ class AlgFuns:
 
 	def Distributive(self, network, node):
 		indexes = []
-		flag = false
-		i = 0
+		flag = False
+		i_ = 0
 		for i,n in enumerate(node.Fin):
 			indexes = []
 			for j,n_ in enumerate(n[0].Fin):
-				indexes.append(index_(node.Fin[(i+1)%3].Fin, n_))
-			if(sum([1 for k in x if k == -1]) <= 1):
+				indexes.append(self.index_(node.Fin[(i+1)%3][0].Fin, n_))
+			if(sum([1 for k in indexes if k == -1]) <= 1):
 				flag = True
+				i_ = i
 				break
 		if(flag == True):
+			temp1 = node.Fin[i];
+			temp2 = node.Fin[(i+1)%3]
 			firstMatch = indexes.index(-1)
 			node.Fin[i] = node.Fin[i][0].Fin[firstMatch-1]
-			node.Fin[(i+1)%3] = node.Fin[i][0].Fin[firstMatch-2]
+			node.Fin[(i+1)%3] = temp1[0].Fin[firstMatch-2]
 			newNode = createNode(network.nodeNum+1, "MIG", node.level-1)
-			newNode.insertFin(node.Fin[i][0].Fin[indexes.index(-1)])
+			newNode.insertFin(temp1[0].Fin[indexes.index(-1)])
 			a = range(3)
-			newNode.insertFin(node.Fin[(i+1)%3][0].Fin[[k for k in a if k not in x][0]])
+			newNode.insertFin(temp2[0].Fin[[k for k in a if k not in indexes][0]])
+			newNode.insertFin(node.Fin[(i+2)%3])
 			node.Fin[(i+2)%3] = [newNode , '0']
 			
 				
 			
-	def index_(node,n):
+	def index_(self,node,n):
 		if n in node:
 			return node.index(n)
-		else
+		else:
 			return -1
 			
 			

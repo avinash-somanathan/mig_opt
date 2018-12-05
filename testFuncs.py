@@ -4,12 +4,12 @@ import parserNetwork
 import MIG
 
 
-parserNetwork.parser("networkTest.out")
+parserNetwork.parser("networkTest2.out")
 
-MIG.convToMIG(parserNetwork.pNtk)
+#MIG.convToMIG(parserNetwork.pNtk)
 parserNetwork.pNtk.printNodes()
-print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(5)))
-fun.AlgFuns().Majority(parserNetwork.pNtk, parserNetwork.pNtk.getNode(4))
-print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(5)))
+print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(8)))
+fun.AlgFuns().Distributive(parserNetwork.pNtk, parserNetwork.pNtk.getNode(8))
+print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(8)))
 #fun.AlgFuns().Inversion(pNtk,pNtk.getNode(5))
 
