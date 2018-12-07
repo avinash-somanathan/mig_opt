@@ -56,7 +56,16 @@ class network:
 	
 	def printNodesExt(self,node):
 		if(node.nodeType != 'CONST' and node.nodeType != 'Input'):
-			s = 'MAJ('+self.printNodesExt(node.Fin[0][0])+', '+self.printNodesExt(node.Fin[1][0])+', '+self.printNodesExt(node.Fin[2][0])+')'
+			s = 'MAJ('+self.printNodesExt(node.Fin[0][0])
+			if(node.Fin[0][1] == '1'):
+				s = s+"'"
+			s = s+', '+self.printNodesExt(node.Fin[1][0]) 
+			if(node.Fin[1][1] == '1'):
+				s = s+"'"
+			s = s+ ', '+self.printNodesExt(node.Fin[2][0])
+			if(node.Fin[2][1] == '1'):
+				s = s+"'"
+			s = s+')'
 		else:
 			s = str(node.name)
 		return s
