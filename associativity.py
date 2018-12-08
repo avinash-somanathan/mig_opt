@@ -25,6 +25,10 @@ def replace(net1, net2, topNode):
 	topNode.Fin.remove(net2)
 	topNode.Fin.insert(index,net1)
 
+	index = net2[0].Fout.index(topNode)
+	net2[0].Fout.remove(topNode)
+	net1[0].Fout.insert(index, topNode)
+
 
 def associativity(cNetwork, node, comp):
 	#pdb.set_trace()
@@ -34,7 +38,7 @@ def associativity(cNetwork, node, comp):
 	#checking for majority Nodes
 	#choice gives the index of the fanins which has Maj node 
 	choice = [y for y in range(len(fins)) if (fins[y][0].nodeType == "AND")]
-	pdb.set_trace()
+	#pdb.set_trace()
 	
 
 	applyNode = None
@@ -44,7 +48,7 @@ def associativity(cNetwork, node, comp):
 	for everyMaj in choice:
 		nextFins = fins[everyMaj][0].Fin
 		for other in fins:
-			pdb.set_trace()
+			#pdb.set_trace()
 			newNet = [x for x in other]
 			if("COMP" in comp.upper()):
 				newNet[1] = str(abs((int(newNet[1])-1)))
@@ -66,7 +70,7 @@ def associativity(cNetwork, node, comp):
 			swapChoice = [x for x in nextFins if x!=commonNode]
 
 		curFin = [x for x in fins if (x!=applyNode or x!=commonNode)][0]
-		pdb.set_trace()
+		#pdb.set_trace()
 		if "COMP" in comp.upper():
 			#replace(swapChoice[0], commonNode, )
 			replace(swapChoice[0], commonNode, applyNode[0])
