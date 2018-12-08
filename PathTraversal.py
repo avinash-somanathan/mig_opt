@@ -18,6 +18,7 @@ def create_adjacency(network):
         if network.nodes[node].nodeType == "Output":
             po.append(network.nodes[node].name)
         adjacency[node] = edges
+    print adjacency 
     return pi,po,adjacency
 
 def find_all_paths(adjacency,destination):
@@ -61,9 +62,9 @@ def find_critical_paths(network):
         #print list(set(pi)|set(po))
         if node not in pi:
                 mod_adjacency[node] = adjacency[node]
-    draw_graph(mod_adjacency)
+    draw_graph(adjacency)
     #print mod_adjacency
-    find_all_paths(mod_adjacency,po)
+    find_all_paths(adjacency,po)
 
 def draw_graph(adjacency):
     g = Graph('G',filename = 'Boolean_Network')
