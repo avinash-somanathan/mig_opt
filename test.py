@@ -11,10 +11,10 @@ import pdb
 
 parserNetwork.parser("networkTest2.out")
 
-MIG.convToMIG(parserNetwork.pNtk)
+#MIG.convToMIG(parserNetwork.pNtk)
 #parserNetwork.pNtk.printNodes()
 #pdb.set_trace()
 print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(6)))
-A.associativity(parserNetwork.pNtk ,parserNetwork.pNtk.getNode(6))
+A.associativity(parserNetwork.pNtk ,parserNetwork.pNtk.getNode(6), "Not")
 
 print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(6)))
