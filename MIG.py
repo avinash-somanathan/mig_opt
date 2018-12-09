@@ -10,8 +10,7 @@ from dataStructure import createNode
 def convToMIG(cNetwork):
 	for eachNode in cNetwork.nodes.keys():
 		if cNetwork.nodes[eachNode].nodeType == "AND" or (cNetwork.nodes[eachNode].nodeType == "Output" and len(cNetwork.nodes[eachNode].Fin)>1):
-			newNode = createNode(cNetwork.nextNode, "CONST", 0)
-			newNode.setValue(0)
+			newNode = cNetwork.getNode(0)
 			newNode.insertFout(cNetwork.nodes[eachNode])
 			cNetwork.insertNodes(newNode)
 			if not cNetwork.nodes[eachNode].nodeType == "Output":

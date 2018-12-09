@@ -8,6 +8,7 @@ import dataStructure
 import parserNetwork
 import pdb
 import AlgFuns
+import MIG
 # from graphviz import Graph
 
 adjacency=dict()
@@ -38,6 +39,13 @@ def Substitution(network, node):
 		for j,fin in enumerate(fout.Fin):
 			if(fin[0].name == newTop.name):
 				newTop.Fout[i].Fin[j][0] = newNodeTop
+	node.Fout = [newNodeLeft]
+	newTop.Fout = [newNodeRight]
+	v[0].insertFout(newNodeTop)
+	v[0].insertFout(newNodeLeft)
+	v[0].insertFout(newNodeRight)
+	u[0].insertFout(newNodeLeft)
+	u[0].insertFout(newNodeRight)
 	newNodeLeft.insertFout(newNodeTop)
 	newNodeRight.insertFout(newNodeTop)
 	network.insertNodes(newNodeRight)
@@ -65,8 +73,8 @@ def inv(i):
 
 def pickPI( network, node):
 	rand_index = randrange(len(network.PI)-1)
-	u = [network.getNode(network.PI[rand_index]),0]			#pick a randm input
-	v = [network.getNode(network.PI[rand_index+1]),0]			#use circular feature in python
+	u = [network.getNode(network.PI[rand_index].name),0]			#pick a randm input
+	v = [network.getNode(network.PI[rand_index+1].name),0]			#use circular feature in python
 	return [u,v]
 
 def duplicate_net_start(network,node):
@@ -124,9 +132,12 @@ def create_adjacency(network):
 
 
 parserNetwork.parser("networkTest2.out")
-print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(7)))
-Substitution(parserNetwork.pNtk,parserNetwork.pNtk.getNode(6))
-print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(7)))
+MIG.convToMIG(parserNetwork.pNtk)
+print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(4)))
+
+Substitution(parserNetwork.pNtk,parserNetwork.pNtk.getNode(10))
+pdb.set_trace()
+print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(4)))
 flag = True
 while(True):
 	flag = False

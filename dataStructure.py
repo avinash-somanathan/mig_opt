@@ -14,6 +14,9 @@ class network:
 		self.nodeNum = 0
 		self.maxLevel = 0
 		self.nextNode = 1
+		n = createNode(0, "CONST", 0)
+		n.setValue(0)
+		self.insertNodes(n)
 		
 	def insertNodes(self, node):
 		self.nodes[node.name] = node
@@ -57,11 +60,16 @@ class network:
 		return self.nodeNum
 		
 	def getNode(self, name):
-		if int(name) in self.nodes:
-			return self.nodes[int(name)]
+		try:
+			if int(name) in self.nodes:
+				return self.nodes[int(name)]
+		except:
+			pdb.set_trace()
 	
 	def printNodesExt(self,node):
-		if(node.nodeType != 'CONST' and node.nodeType != 'Input'):
+		if(node.nodeType == 'Output' and len(node.Fin) == 1):
+			s="INV("+self.printNodesExt(node.Fin[0][0])+")"
+		elif(node.nodeType != 'CONST' and node.nodeType != 'Input'):
 			s = 'MAJ('+self.printNodesExt(node.Fin[0][0])
 			if(node.Fin[0][1] == '1'):
 				s = s+"'"

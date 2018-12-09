@@ -7,71 +7,14 @@ from dataStructure import createNode
 
 	
 def Majority(network,node):
-
-
-
-
-
-
-
-
-
-
-
 	print(str(node.name)+" "+network.printNodesExt(node))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	flag = False
 	if(node.nodeType != 'Output'):
 		for i,fin in enumerate(node.Fin):
 			cur0 = node.Fin[i%3]
 			cur1 = node.Fin[(i+1)%3]
 			cur2 = node.Fin[(i+2)%3]
-
-
 			if (cur0[0].name == cur1[0].name):
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 				if(cur0[1] == cur1[1]):
 					exchg(node, cur1)
 				else:
@@ -80,32 +23,13 @@ def Majority(network,node):
 				flag = True
 
 				break
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	return flag
 			
 def Inversion(network,node):
 	for n in node.Fin:
-
 		if(n[1] == '1' or n==1):
 			n[1] = '0'
 		else:
-
 			n[1] = '1'
 			
 def Relevance( network, node):
@@ -172,6 +96,7 @@ def index_(node,n):
 		
 		
 def exchg(node, node_):
+	
 	for i,n in enumerate(node_[0].Fout):
 		if(n.name == node.name):
 			node_[0].Fout.remove(n)
