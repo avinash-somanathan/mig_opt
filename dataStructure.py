@@ -101,33 +101,37 @@ class network:
 
 	def clone(self, skip):
 		newNetwork = network()
-		newNetwork.PI = self.PI
-		newNetwork.PO = self.PO
+		newNetwork.PI=self.PI
+
 
 		for n in self.nodes.values():
-		        if n.nodeType != 'Input' and n.nodeType != 'Output':
-		                newNetwork.insertNodes(n.duplicateNode(n.name+skip))
-		        else:
-		                newNetwork.insertNodes(n.duplicateNode(n.name))
+			if n.nodeType != 'Input' and n.nodeType != 'Output':
+				newNetwork.insertNodes(n.duplicateNode(n.name+skip))
+
+			else:
+				newNetwork.insertNodes(n.duplicateNode(n.name))
 		for k,n in newNetwork.nodes.items():
-		        for i,fin in enumerate(n.Fin):
-		                if fin[0].nodeType != 'Input':
-		                        newNetwork.nodes[k].Fin[i] = [newNetwork.nodes[fin[0].name+skip],fin[1]]
-		        for i,fout in enumerate(n.Fout):
-		                if fout.nodeType != 'Output':
-		                        newNetwork.nodes[k].Fout[i] = newNetwork.nodes[fout.name+skip]
-		                else:
-		                        newNetwork.nodes[k].Fout[i] = newNetwork.nodes[fout.name]
+			for i,fin in enumerate(n.Fin):
+				if fin[0].nodeType != 'Input':
+					newNetwork.nodes[k].Fin[i] = [newNetwork.nodes[fin[0].name+skip],fin[1]]
+			for i,fout in enumerate(n.Fout):
+				if fout.nodeType != 'Output':
+					newNetwork.nodes[k].Fout[i] = newNetwork.nodes[fout.name+skip]
+
+
+				else:
+					newNetwork.nodes[k].Fout[i] = newNetwork.nodes[fout.name]
 		return newNetwork
+
 
 	def combine(self, net):
 		for k,n in net.nodes.items():
-	        exists, _ = self.exists(k)
-	        if(exists == True):
-	                for fout in n.Fout:
-	                        self.nodes[k].insertFout(fout)
-	        else:
-	                self.insertNodes(n)
+			exists, _ = self.exists(k)
+			if(exists == True):
+				for fout in n.Fout:
+					self.nodes[k].insertFout(fout)
+			else:
+				self.insertNodes(n)
 
 
 		
