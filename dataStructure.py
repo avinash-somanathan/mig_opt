@@ -23,15 +23,21 @@ class network:
 			self.maxLevel = node.level
 				
 		
-		if not node.level in self.nodesLevel:
-			self.nodesLevel[node.level] = list()
+		#if not node.level in self.nodesLevel:
+		#	self.nodesLevel[node.level] = list()
 			
-		self.nodesLevel[node.level].append(node)
+		#self.nodesLevel[node.level].append(node)
 		
 		if(node.nodeType != "CONST"):
 			self.nodeNum = self.nodeNum + 1;
 			
-	
+        def setNodeLevel(self,level,node):
+            if level in self.nodesLevel.keys():
+                self.nodesLevel[level].append(node)
+            else :
+                self.nodesLevel[level] = list()
+                self.nodesLevel[level].append(node)
+
 	def printNodes(self):
 		keys = self.nodes.keys()
 		#keys.sort()
@@ -56,19 +62,16 @@ class network:
 	
 	def printNodesExt(self,node):
 		if(node.nodeType != 'CONST' and node.nodeType != 'Input'):
-			if(len(node.Fin)<2):
-				s = 'INV('+self.printNodesExt(node.Fin[0][0])+')'
-			else:
-				s = 'MAJ('+self.printNodesExt(node.Fin[0][0])
-				if(node.Fin[0][1] == '1'):
-					s = s+"'"
-				s = s+', '+self.printNodesExt(node.Fin[1][0]) 
-				if(node.Fin[1][1] == '1'):
-					s = s+"'"
-				s = s+ ', '+self.printNodesExt(node.Fin[2][0])
-				if(node.Fin[2][1] == '1'):
-					s = s+"'"
-				s = s+')'
+			s = 'MAJ('+self.printNodesExt(node.Fin[0][0])
+			if(node.Fin[0][1] == '1'):
+				s = s+"'"
+			s = s+', '+self.printNodesExt(node.Fin[1][0]) 
+			if(node.Fin[1][1] == '1'):
+				s = s+"'"
+			s = s+ ', '+self.printNodesExt(node.Fin[2][0])
+			if(node.Fin[2][1] == '1'):
+				s = s+"'"
+			s = s+')'
 		else:
 			s = str(node.name)
 		return s
