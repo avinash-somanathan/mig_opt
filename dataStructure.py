@@ -31,12 +31,12 @@ class network:
 		if(node.nodeType != "CONST"):
 			self.nodeNum = self.nodeNum + 1;
 			
-        def setNodeLevel(self,level,node):
-            if level in self.nodesLevel.keys():
-                self.nodesLevel[level].append(node)
-            else :
-                self.nodesLevel[level] = list()
-                self.nodesLevel[level].append(node)
+	def setNodeLevel(self,level,node):
+	    if level in self.nodesLevel.keys():
+	        self.nodesLevel[level].append(node)
+	    else :
+	        self.nodesLevel[level] = list()
+	        self.nodesLevel[level].append(node)
 
 	def printNodes(self):
 		keys = self.nodes.keys()

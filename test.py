@@ -8,12 +8,17 @@ import parserNetwork
 import MIG
 import associativity as A
 import pdb
+import critical_parser as crit
 
-parserNetwork.parser("networkTest2.out")
+parserNetwork.parser("networkOut.out")
+MIG.convToMIG(parserNetwork.pNtk)
 
-#MIG.convToMIG(parserNetwork.pNtk)
-#parserNetwork.pNtk.printNodes()
 #pdb.set_trace()
+dic = crit.levelizeNodes(parserNetwork.pNtk)
+
+print(dic.keys())
+
+#parserNetwork.pNtk.printNodes()
 print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(6)))
 A.associativity(parserNetwork.pNtk ,parserNetwork.pNtk.getNode(6), "")
 

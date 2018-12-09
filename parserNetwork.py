@@ -13,11 +13,11 @@ def parser(fileName):
             Id = line.split(':')[1].strip().split(' ')
             for name in Id:
                 if "input" in line:
-                    pNtk.PI.append(name)
                     newNode = node(name, "Input", 0)
+                    pNtk.PI.append(newNode)
                 else:
-                    pNtk.PO.append(name)
                     newNode = node(name, "Output", 0)
+                    pNtk.PO.append(newNode)
                     
                 pNtk.insertNodes(newNode)
         

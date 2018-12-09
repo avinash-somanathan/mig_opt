@@ -1,6 +1,6 @@
 import parserNetwork 
 import dataStructure
-from graphviz import Graph
+#from graphviz import Graph
 import pdb
 
 adjacency = dict()
@@ -62,18 +62,18 @@ def find_critical_paths(network):
         #print list(set(pi)|set(po))
         if node not in pi:
                 mod_adjacency[node] = adjacency[node]
-    draw_graph(adjacency)
+    #draw_graph(adjacency)
     #print mod_adjacency
     find_all_paths(adjacency,po)
 
-def draw_graph(adjacency):
-    g = Graph('G',filename = 'Boolean_Network')
-    for node in adjacency:        
-        for Fout in adjacency[node]:
-            #print str(node) + " " + str(Fout)
-            g.edge(str(node),str(Fout))
-    g.view()
-        
+#def draw_graph(adjacency):
+#    g = Graph('G',filename = 'Boolean_Network')
+#    for node in adjacency:        
+#        for Fout in adjacency[node]:
+#            #print str(node) + " " + str(Fout)
+#            g.edge(str(node),str(Fout))
+#    g.view()
+#        
 parserNetwork.parser("networkOut.out")
 find_critical_paths(parserNetwork.pNtk)
     

@@ -1,4 +1,4 @@
-
+import pdb
 def dependentNodes(file):
 	file = open(file)
 	
@@ -15,3 +15,43 @@ def dependentNodes(file):
 		for x in range(1, len(nodeList)-1):
 			nodeDict[nodeList[0]].add(nodeList[x].strip())
 	return nodeDict
+
+
+levelized = list()
+
+def levelizeNodes(pNtk):
+	nodesLevel = dict()
+
+	for nodes in pNtk.PI:
+		nodes.setLevel(0)
+		if not 0 in nodesLevel.keys(): 
+			nodesLevel[0] = list()
+		nodesLevel[0].append(nodes)
+
+		levelized.append(int(nodes.name))
+	for node in pNtk.nodes.keys():
+		if not node in levelized:
+			levelize(pNtk, pNtk.getNode(node), nodesLevel) 
+	return nodesLevel
+
+def levelize(pNtk, node, nodesLevel):
+	levels = list()
+	if not node.nodeType == "CONST":
+		for inputs in node.Fin:
+			#pdb.set_trace()
+			if int(inputs[0].name) in levelized:
+				levels.append(inputs[0].level)
+			else:
+				levelize(pNtk, inputs[0], nodesLevel)
+				levels.append(inputs[0].level)
+		try:
+			node.level = max(levels)+1
+		except:
+			pdb.set_trace()
+	else:
+		node.level = 0
+
+	levelized.append(int(node.name))
+	if not node.level in nodesLevel.keys(): 
+		nodesLevel[node.level] = list()
+	nodesLevel[node.level].append(node)
