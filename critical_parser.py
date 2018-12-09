@@ -44,14 +44,17 @@ def levelize(pNtk, node, nodesLevel):
 			else:
 				levelize(pNtk, inputs[0], nodesLevel)
 				levels.append(inputs[0].level)
-		try:
+
 			node.level = max(levels)+1
-		except:
-			pdb.set_trace()
 	else:
 		node.level = 0
 
-	levelized.append(int(node.name))
+	
 	if not node.level in nodesLevel.keys(): 
 		nodesLevel[node.level] = list()
-	nodesLevel[node.level].append(node)
+
+
+	if not int(node.name) in levelized:		
+		nodesLevel[node.level].append(node)
+
+	levelized.append(int(node.name))

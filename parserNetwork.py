@@ -46,8 +46,8 @@ def parser(fileName):
                         if(not nodeExist):
                             foutNode = node(fout.split('-')[0], "AND", 0)
                             pNtk.insertNodes(foutNode)
-                        
-                        tempNode.insertFout(pNtk.getNode(fout.split('-')[0]))
+                        if not pNtk.getNode(fout.split('-')[0]) in tempNode.Fout:
+                            tempNode.insertFout(pNtk.getNode(fout.split('-')[0]))
                 if not exist:
                     pNtk.insertNodes(tempNode)
     file.close()              
