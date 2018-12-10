@@ -124,6 +124,12 @@ class network:
 		newNetwork.PI=self.PI
 		for n in self.nodes.values():
 			if n.nodeType == 'MIG':
+				while(True):
+					exist,_ = self.exists(n.name+skip)
+					if(exist == False):
+						break
+					else:
+						skip = skip+1
 				newNetwork.insertNodes(n.duplicateNode(n.name+skip))
 			else:
 				newNetwork.insertNodes(n.duplicateNode(n.name))
@@ -165,9 +171,13 @@ class network:
 
 	def mergeNodes(self, ntk, oldNode, newNode):
 		for fin in oldNode.Fin:
-			inNode = createNode(self.nextNode, fin[0].nodeType, fin[0].level)
-			inNode.baseName = fin[0].name
-			self.insertNodes(inNode)
+			if fin[0].nodeType != "CONST":
+				inNode = createNode(self.nextNode, fin[0].nodeType, fin[0].level)
+				inNode.baseName = fin[0].name
+				self.insertNodes(inNode)
+			else:
+				inNode = self.nodes[0]
+			
 			newNode.Fin.append([inNode, fin[1]])
 			inNode.Fout.append(newNode)
 			self.mergeNodes(ntk, fin[0], inNode)
