@@ -8,11 +8,12 @@ temp_file_write = open("temp_file.txt",'w')
 
 def create_adjacency(network):
     pi = list() 
-    po = list() 
+    po = list()
+    adjacency.clear()
     for node in network.nodes.keys():
         edges = list()
         for i in range(0,len(network.nodes[node].Fout)):
-                 edges.append(network.nodes[node].Fout[i].name)
+            edges.append(network.nodes[node].Fout[i].name)
         if network.nodes[node].nodeType == "Input":
             pi.append(network.nodes[node].name)
         if network.nodes[node].nodeType == "Output":

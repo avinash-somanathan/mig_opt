@@ -7,7 +7,6 @@ from dataStructure import createNode
 
 	
 def Majority(network,node):
-	print(str(node.name)+" "+network.printNodesExt(node))
 	flag = False
 	if(node.nodeType != 'Output'):
 		for i,fin in enumerate(node.Fin):
@@ -15,11 +14,12 @@ def Majority(network,node):
 			cur1 = node.Fin[(i+1)%3]
 			cur2 = node.Fin[(i+2)%3]
 			if (cur0[0].name == cur1[0].name):
-				if(cur0[1] == cur1[1]):
-					exchg(node, cur1)
+				if(str(cur0[1]) == str(cur1[1])):
+					exchg(node, node.Fin[(i+1)%3])
 				else:
-					exchg(node, cur2)
+					exchg(node, node.Fin[(i+2)%3])
 				network.deleteNode(node.name)
+				print("Removed node "+str(node.name))
 				flag = True
 
 				break
@@ -96,12 +96,23 @@ def index_(node,n):
 		
 		
 def exchg(node, node_):
-	
 	for i,n in enumerate(node_[0].Fout):
 		if(n.name == node.name):
 			node_[0].Fout.remove(n)
+	for i,n in enumerate(node.Fin):
+		for j,n_ in enumerate(n[0].Fout):
+			if(n_.name == node.name):
+				n[0].Fout.remove(n_)
 	node_[0].Fout = node_[0].Fout +node.Fout
 	for i,n in enumerate(node.Fout):
 		for j,in_node in enumerate(n.Fin):
+			sign = 0
 			if(in_node[0].name == node.name):
-				node.Fout[i].Fin[j] = node_
+				if(node_[1]=='1' or node_[1]==1):
+					if(node.Fout[i].Fin[j][1]=='0' or node.Fout[i].Fin[j][1]==0):
+						sign = 1
+				else:
+					if(node.Fout[i].Fin[j][1]=='1' or node.Fout[i].Fin[j][1]==1):
+						sign = 1
+				pdb.set_trace()
+				node.Fout[i].Fin[j] = [node_[0],sign]

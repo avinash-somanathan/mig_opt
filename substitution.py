@@ -9,7 +9,8 @@ import parserNetwork
 import pdb
 import AlgFuns
 import MIG
-# from graphviz import Graph
+from graphviz import Graph
+import PathTraversal as draw
 
 adjacency=dict()
 
@@ -27,9 +28,9 @@ def Substitution(network, node):
 	newNodeTop = dataStructure.createNode(network.nodeNum+3, "MIG", node.level+2)
 	newNodeLeft = dataStructure.createNode(network.nodeNum+2, "MIG", node.level+1)
 	newNodeRight = dataStructure.createNode(network.nodeNum+1, "MIG", node.level+1)
-	newNodeLeft.Fin = [[node,0], u , [v[0],inv(v[1])]]
+	newNodeLeft.Fin = [[node,0], [u[0],'0'] , [v[0],inv(v[1])]]
 	newNodeRight.Fin = [[newTop,0], [u[0],inv(u[1])] , [v[0],inv(v[1])]]
-	newNodeTop.Fin = [[newNodeRight,0],[newNodeLeft,0],v]
+	newNodeTop.Fin = [[newNodeRight,0],[newNodeLeft,0],[v[0],0]]
 	newNodeTop.Fout = node.Fout
 	for i,fout in enumerate(node.Fout):
 		for j,fin in enumerate(fout.Fin):
@@ -41,6 +42,7 @@ def Substitution(network, node):
 				newTop.Fout[i].Fin[j][0] = newNodeTop
 	node.Fout = [newNodeLeft]
 	newTop.Fout = [newNodeRight]
+	v[0].Fout = []
 	v[0].insertFout(newNodeTop)
 	v[0].insertFout(newNodeLeft)
 	v[0].insertFout(newNodeRight)
@@ -134,7 +136,8 @@ def create_adjacency(network):
 parserNetwork.parser("networkTest2.out")
 MIG.convToMIG(parserNetwork.pNtk)
 print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(4)))
-
+p0,p1,ad = draw.create_adjacency(parserNetwork.pNtk)
+draw.draw_graph(ad)
 Substitution(parserNetwork.pNtk,parserNetwork.pNtk.getNode(10))
 pdb.set_trace()
 print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(4)))
@@ -146,7 +149,8 @@ for k,v in parserNetwork.pNtk.nodes.items():
 	print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(4)))
 	if(f):
 		flag = f
-pdb.set_trace()
+p0,p1,ad = draw.create_adjacency(parserNetwork.pNtk)
+draw.draw_graph(ad)
 #parserNetwork.pNtk.printNodes()
 
 #pi,po,adj=create_adjacency(parserNetwork.pNtk)
