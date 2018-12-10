@@ -67,22 +67,25 @@ class network:
 			pdb.set_trace()
 	
 	def printNodesExt(self,node):
-		if(node.nodeType == 'Output' and len(node.Fin) == 1):
-			s="INV("+self.printNodesExt(node.Fin[0][0])+")"
-		elif(node.nodeType != 'CONST' and node.nodeType != 'Input'):
-			s = 'MAJ('+self.printNodesExt(node.Fin[0][0])
-			if(node.Fin[0][1] == '1'):
-				s = s+"'"
-			s = s+', '+self.printNodesExt(node.Fin[1][0]) 
-			if(node.Fin[1][1] == '1'):
-				s = s+"'"
-			s = s+ ', '+self.printNodesExt(node.Fin[2][0])
-			if(node.Fin[2][1] == '1'):
-				s = s+"'"
-			s = s+')'
-		else:
-			s = str(node.name)
-		return s
+		try:
+			if(node.nodeType == 'Output' and len(node.Fin) == 1):
+				s="INV("+self.printNodesExt(node.Fin[0][0])+")"
+			elif(node.nodeType != 'CONST' and node.nodeType != 'Input'):
+				s = 'MAJ('+self.printNodesExt(node.Fin[0][0])
+				if(node.Fin[0][1] == '1'):
+					s = s+"'"
+				s = s+', '+self.printNodesExt(node.Fin[1][0]) 
+				if(node.Fin[1][1] == '1'):
+					s = s+"'"
+				s = s+ ', '+self.printNodesExt(node.Fin[2][0])
+				if(node.Fin[2][1] == '1'):
+					s = s+"'"
+				s = s+')'
+			else:
+				s = str(node.name)
+			return s
+		except:
+			pdb.set_trace()
 		
 	def deleteNode(self, name):
 		if int(name) in self.nodes:
@@ -113,14 +116,14 @@ class network:
 
 
 		for n in self.nodes.values():
-			if n.nodeType != 'Input' and n.nodeType != 'Output':
+			if n.nodeType == 'MIG':
 				newNetwork.insertNodes(n.duplicateNode(n.name+skip))
 
 			else:
 				newNetwork.insertNodes(n.duplicateNode(n.name))
 		for k,n in newNetwork.nodes.items():
 			for i,fin in enumerate(n.Fin):
-				if fin[0].nodeType != 'Input':
+				if fin[0].nodeType != 'Input' and fin[0].nodeType != 'CONST':
 					newNetwork.nodes[k].Fin[i] = [newNetwork.nodes[fin[0].name+skip],fin[1]]
 			for i,fout in enumerate(n.Fout):
 				if fout.nodeType != 'Output':

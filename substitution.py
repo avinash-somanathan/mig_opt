@@ -139,14 +139,14 @@ Substitution(parserNetwork.pNtk,parserNetwork.pNtk.getNode(10))
 pdb.set_trace()
 print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(4)))
 flag = True
-while(True):
-	flag = False
-	for k,v in parserNetwork.pNtk.nodes.items():
-		f = AlgFuns.Majority(parserNetwork.pNtk, v)
-		print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(7)))
-		if(f):
-			flag = f
-	pdb.set_trace()
+#while(1):
+flag = False
+for k,v in parserNetwork.pNtk.nodes.items():
+	f = AlgFuns.Majority(parserNetwork.pNtk, v)
+	print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(4)))
+	if(f):
+		flag = f
+pdb.set_trace()
 #parserNetwork.pNtk.printNodes()
 
 #pi,po,adj=create_adjacency(parserNetwork.pNtk)
