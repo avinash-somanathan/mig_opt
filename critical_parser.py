@@ -31,7 +31,8 @@ def levelizeNodes(pNtk):
 		levelized.append(int(nodes.name))
 	for node in pNtk.nodes.keys():
 		if not node in levelized:
-			levelize(pNtk, pNtk.getNode(node), nodesLevel) 
+			levelize(pNtk, pNtk.getNode(node), nodesLevel)
+	pNtk.nodesLevel = nodesLevel 
 	return nodesLevel
 
 def levelize(pNtk, node, nodesLevel):

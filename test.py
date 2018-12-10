@@ -10,31 +10,24 @@ import associativity as A
 import pdb
 import critical_parser as crit
 import PathTraversal as draw
+import critical_finder as insertError
 #from PathTraversal import draw_graph as drawGrp
 
 parserNetwork.parser("networkOut.out")
 
 MIG.convToMIG(parserNetwork.pNtk)
 
-dupNtk = parserNetwork.pNtk.copy()
-
-
-
-dupNtk.PI
 pdb.set_trace()
 dic = crit.levelizeNodes(parserNetwork.pNtk)
 
-for key in dic.keys():
-	print "------------------------------"
-	print "level -> "+str(key)
-	for node in dic[key]:
-		print node.name
+dupNtkA = parserNetwork.pNtk.copy()
+dupNtkB = parserNetwork.pNtk.copy()
+dupNtkC = parserNetwork.pNtk.copy()
 
-x,y,adj = draw.create_adjacency(parserNetwork.pNtk)
-draw.draw_graph(adj)
-pdb.set_trace()
-#parserNetwork.pNtk.printNodes()
-print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(11)))
-A.associativity(parserNetwork.pNtk ,parserNetwork.pNtk.getNode(4), "")
 
-print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.getNode(11)))
+critVoters = insertError.find_connected_nodes(parserNetwork.pNtk)
+
+insertError.introduce_error_wrapper(critVoters, dupNtkA, dupNtkB, dupNtkC)
+
+#optimize each ntk
+

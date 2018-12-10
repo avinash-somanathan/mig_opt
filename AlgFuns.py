@@ -1,10 +1,6 @@
 import NtkParser as parser
 import pdb
 from dataStructure import createNode
-
-
-
-
 	
 def Majority(network,node):
 	flag = False
@@ -21,7 +17,6 @@ def Majority(network,node):
 				network.deleteNode(node.name)
 				print("Removed node "+str(node.name))
 				flag = True
-
 				break
 	return flag
 			
@@ -39,13 +34,6 @@ def Relevance( network, node):
 		cur1 = node.Fin[(i+1)%3]
 		cur2 = node.Fin[(i+2)%3]
 		RelevanceHelper(cur0,cur1,cur2)
-		# for j,f in enumerate(cur0[0].Fin):
-			# if(f[0].name == cur1[0].name):
-				# cur0[0].Fin[j] = [cur2[0], inv(cur1[1])]
-				# break
-			# if(f[0].name == cur2[0].name):
-				# cur0[0].Fin[j] = [cur1[0], inv(cur2[1])]
-				# break
 
 def RelevanceHelper(nodeA, nodeB, nodeC):
 	flag = False
@@ -73,7 +61,7 @@ def Distributive( network, node):
 			flag = True
 			i_ = i
 			break
-	if(flag == True):
+	if(flag == True and len(indexes)>0 and (-1 in indexes)):
 		temp1 = node.Fin[i];
 		temp2 = node.Fin[(i+1)%3]
 		firstMatch = indexes.index(-1)
@@ -114,5 +102,4 @@ def exchg(node, node_):
 				else:
 					if(node.Fout[i].Fin[j][1]=='1' or node.Fout[i].Fin[j][1]==1):
 						sign = 1
-				pdb.set_trace()
 				node.Fout[i].Fin[j] = [node_[0],sign]

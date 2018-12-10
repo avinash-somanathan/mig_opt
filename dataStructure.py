@@ -24,12 +24,6 @@ class network:
 		
 		if node.level > self.maxLevel:
 			self.maxLevel = node.level
-				
-		
-		#if not node.level in self.nodesLevel:
-		#	self.nodesLevel[node.level] = list()
-			
-		#self.nodesLevel[node.level].append(node)
 		
 		if(node.nodeType != "CONST"):
 			self.nodeNum = self.nodeNum + 1;
@@ -43,11 +37,8 @@ class network:
 
 	def printNodes(self):
 		keys = self.nodes.keys()
-		#keys.sort()
 		for node in keys:
-			#print (str(self.nodes[node].name)+" "+str(self.nodes[node].Fin)+" "+str(self.nodes[node].Fout)+" "+str(self.nodes[node].level)+" "+str(self.nodes[node].nodeType))
 			print ('{0:5} {1:70} {2:30} {3:20} {4:10}'.format(self.nodes[node].name, self.nodes[node].Fin, self.nodes[node].Fout, self.nodes[node].level, self.nodes[node].nodeType))
-			#print(f'{keys:5} keys')
 		return
 			
 	def exists(self, searchNode):
@@ -110,15 +101,25 @@ class network:
 
 		return newNetwork
 
+	def cloneFull(self):
+		newNetwork = network()
+		newNetwork.PI=self.PI
+		newNetwork.PO=self.PO
+		for n in self.nodes.values():
+			newNetwork.insertNodes(n.duplicateNode(n.name))
+		for k,n in newNetwork.nodes.items():
+			for i,fin in enumerate(n.Fin):
+				newNetwork.nodes[k].Fin[i] = [newNetwork.nodes[fin[0].name],fin[1]]
+			for i,fout in enumerate(n.Fout):
+				newNetwork.nodes[k].Fout[i] = newNetwork.nodes[fout.name]
+		return newNetwork
+		
 	def clone(self, skip):
 		newNetwork = network()
 		newNetwork.PI=self.PI
-
-
 		for n in self.nodes.values():
 			if n.nodeType == 'MIG':
 				newNetwork.insertNodes(n.duplicateNode(n.name+skip))
-
 			else:
 				newNetwork.insertNodes(n.duplicateNode(n.name))
 		for k,n in newNetwork.nodes.items():
@@ -127,13 +128,14 @@ class network:
 					newNetwork.nodes[k].Fin[i] = [newNetwork.nodes[fin[0].name+skip],fin[1]]
 			for i,fout in enumerate(n.Fout):
 				if fout.nodeType != 'Output':
-					newNetwork.nodes[k].Fout[i] = newNetwork.nodes[fout.name+skip]
-
+					try:
+						newNetwork.nodes[k].Fout[i] = newNetwork.nodes[fout.name+skip]
+					except:
+						pdb.set_trace()
 
 				else:
 					newNetwork.nodes[k].Fout[i] = newNetwork.nodes[fout.name]
 		return newNetwork
-
 
 	def combine(self, net):
 		for k,n in net.nodes.items():
@@ -171,6 +173,7 @@ class node:
 		newNode = createNode(name, self.nodeType, self.level)
 		newNode.Fin = list(self.Fin)
 		newNode.Fout = list(self.Fout)
+		newNode.value = self.value
 		return newNode
 
 def createNode(name, nodeType, level):
