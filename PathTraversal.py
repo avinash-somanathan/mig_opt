@@ -19,7 +19,6 @@ def create_adjacency(network):
         if network.nodes[node].nodeType == "Output":
             po.append(network.nodes[node].name)
         adjacency[node] = edges
-    print adjacency 
     return pi,po,adjacency
 
 def find_all_paths(adjacency,destination):

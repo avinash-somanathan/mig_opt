@@ -17,7 +17,7 @@ class network:
 		n = createNode(0, "CONST", 0)
 		n.setValue(0)
 		self.insertNodes(n)
-		
+
 	def insertNodes(self, node):
 		self.nodes[node.name] = node
 		self.nextNode = self.nextNode+1
@@ -80,6 +80,11 @@ class network:
 		
 	def deleteNode(self, name):
 		if int(name) in self.nodes:
+			if self.getNode(int(name)) in self.PI:
+				self.PI.remove(self.getNode(int(name)))
+			elif self.getNode(int(name)) in self.PO:
+				self.PO.remove(self.getNode(int(name)))
+
 			del self.nodes[int(name)]
 			self.nodeNum = self.nodeNum - 1;
 
@@ -146,6 +151,26 @@ class network:
 			else:
 				self.insertNodes(n)
 
+	def mergeNetwork(self, pNtk, net):
+		nodeT = net[0].nodeType
+		if nodeT == "Output":
+			nodeT = "MIG"
+		newNode = createNode(self.nextNode, nodeT, net[0].level)
+		newNode.baseName = net[0].name
+
+		self.PO[0].Fin.append([newNode, net[1]])
+		self.insertNodes(newNode)
+		newNode.Fout.append(self.PO[0])
+		self.mergeNodes(pNtk, net[0], newNode)
+
+	def mergeNodes(self, ntk, oldNode, newNode):
+		for fin in oldNode.Fin:
+			inNode = createNode(self.nextNode, fin[0].nodeType, fin[0].level)
+			inNode.baseName = fin[0].name
+			self.insertNodes(inNode)
+			newNode.Fin.append([inNode, fin[1]])
+			inNode.Fout.append(newNode)
+			self.mergeNodes(ntk, fin[0], inNode)
 
 		
 class node:
@@ -156,6 +181,7 @@ class node:
 		self.Fout = list()
 		self.value = 0
 		self.level = level
+		self.baseName = None
 		
 	def insertFin(self, finNode):
 		self.Fin.append(finNode)

@@ -95,11 +95,6 @@ def introduce_error_wrapper(critical_voters_list, ntkA, ntkB, ntkC):
 
 
 def introduce_error(netA, netB, pNtk):#replace netA by netB in pNtk network
-    
-    x,y,adj = PathTraversal.create_adjacency(pNtk)
-    PathTraversal.draw_graph(adj)
-
-    pdb.set_trace()
 
     change_fanout(pNtk, netB, netA, netB[1])
     change_fanin(pNtk, netB, netA)
@@ -109,10 +104,6 @@ def introduce_error(netA, netB, pNtk):#replace netA by netB in pNtk network
 
     pNtk.deleteNode(netA[0].name)
 
-    pdb.set_trace()
-
-    x,y,adj = PathTraversal.create_adjacency(pNtk)
-    PathTraversal.draw_graph(adj)
 
 def change_fanout(network, netB, netA, complement):
     for fout in netA[0].Fout:
