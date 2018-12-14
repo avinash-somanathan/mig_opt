@@ -29,7 +29,7 @@ def optimize(network, effort):
 					if(v.level >= 3):
 						associativity.associativity(network,v,"NO")
 						associativity.associativity(network,v,"COMP")
-						#fun.Relevance(network,v)
+						fun.Relevance(network,v)
 			secure_random = random.SystemRandom()
 			try:
 				substitution.Substitution(network,network.PO[0].Fin[0][0])
@@ -52,7 +52,7 @@ if __name__ == '__main__':
 	MIG.convToMIG(parserNetwork.pNtk)
 	print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.PO[0]))
 	p0,p1,ad = draw.create_adjacency(parserNetwork.pNtk)
-	draw.draw_graph(ad,'Boolean Network')
+	draw.draw_graph(ad,'Original Boolean Network')
 	network = optimize(parserNetwork.pNtk, 10)
 	p0,p1,ad = draw.create_adjacency(network)
 	draw.draw_graph(ad, 'Optimised Boolean Network')
