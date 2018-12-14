@@ -66,14 +66,17 @@ def find_critical_paths(network):
     #print mod_adjacency
     find_all_paths(adjacency,po)
 
-def draw_graph(adjacency):
-    g = Graph('G',filename = 'Boolean_Network')
-    for node in adjacency:        
-        for Fout in adjacency[node]:
-            #print str(node) + " " + str(Fout)
-            g.edge(str(node),str(Fout))
-    g.view()
-        
+   
+
+def draw_graph(adjacency, name):
+	g = Graph('G',filename = name)
+	for node in adjacency:		
+		for Fout in adjacency[node]:
+			#print str(node) + " " + str(Fout)
+			g.edge(str(node),str(Fout))
+	g.view()
+
+     
 #parserNetwork.parser("networkOut.out")
 #find_critical_paths(parserNetwork.pNtk)
     

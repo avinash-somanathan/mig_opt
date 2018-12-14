@@ -1,25 +1,37 @@
 import NtkParser as parser
 import pdb
 from dataStructure import createNode
-	
-def Majority(network,node):
+import PathTraversal as draw
+
+majorityDone = []
+
+def Majority(network, node):
 	flag = False
-	if(node.nodeType != 'Output'):
-		for i,fin in enumerate(node.Fin):
-			cur0 = node.Fin[i%3]
-			cur1 = node.Fin[(i+1)%3]
-			cur2 = node.Fin[(i+2)%3]
-			if (cur0[0].name == cur1[0].name):
-				if(str(cur0[1]) == str(cur1[1])):
-					exchg(node, node.Fin[(i+1)%3])
-				else:
-					exchg(node, node.Fin[(i+2)%3])
-				network.deleteNode(node.name)
-				print("Removed node "+str(node.name))
-				flag = True
+	if not ((node.nodeType == 'Output') or (node.nodeType == 'Input')):
+		#pdb.set_trace()
+#		for i,fin in enumerate(node.Fin):
+		finListDup = [x for x in node.Fin]
+		for i,checkFin in enumerate(finListDup):
+			for j,origFin in enumerate(node.Fin):
+				if not i == j:
+					if checkFin[0].baseName == origFin[0].baseName:
+						exchg(node, origFin)
+						network.deleteNode(node.name)
+						applyN = node.Fout
+						
+						majorityDone.append(node)
+						del node
+						for fout in applyN:
+							if fout.name in network.nodes.keys():
+								#print("Removed node "+str(node.name))
+								#pdb.set_trace()
+								Majority(network, fout)
+								
+						flag = True
+						break
+			if flag:
 				break
-	return flag
-			
+
 def Inversion(network,node):
 	for n in node.Fin:
 		if(n[1] == '1' or n==1):
@@ -38,7 +50,7 @@ def Relevance( network, node):
 def RelevanceHelper(nodeA, nodeB, nodeC):
 	flag = False
 	for j,f in enumerate(nodeA[0].Fin):
-		if(f[0].name == nodeB[0].name):
+		if(f[0].baseName == nodeB[0].baseName):
 			nodeA[0].Fin[j] = [nodeC[0], inv(nodeB[1])]
 		else:
 			RelevanceHelper(nodeA[0].Fin[j],nodeB,nodeC)
@@ -49,7 +61,7 @@ def inv(i):
 	else:
 		return '0'
 
-def Distributive( network, node):
+def Distributive(network, node):
 	indexes = []
 	flag = False
 	i_ = 0
@@ -83,23 +95,21 @@ def index_(node,n):
 		return -1
 		
 		
-def exchg(node, node_):
-	for i,n in enumerate(node_[0].Fout):
-		if(n.name == node.name):
-			node_[0].Fout.remove(n)
-	for i,n in enumerate(node.Fin):
-		for j,n_ in enumerate(n[0].Fout):
-			if(n_.name == node.name):
-				n[0].Fout.remove(n_)
-	node_[0].Fout = node_[0].Fout +node.Fout
-	for i,n in enumerate(node.Fout):
-		for j,in_node in enumerate(n.Fin):
-			sign = 0
-			if(in_node[0].name == node.name):
-				if(node_[1]=='1' or node_[1]==1):
-					if(node.Fout[i].Fin[j][1]=='0' or node.Fout[i].Fin[j][1]==0):
-						sign = 1
+def exchg(nodeRemove, nodeKeep):
+	for fin in nodeRemove.Fin:
+		try:
+			fin[0].Fout.remove(nodeRemove)
+		except:
+			print("except") #pdb.set_trace()
+			
+	for fout in nodeRemove.Fout:
+		nodeKeep[0].Fout.append(fout)
+		for fin in fout.Fin:
+			if fin[0] == nodeRemove:
+				fin[0] = nodeKeep[0]
+				if fin[1] == nodeKeep[1]:
+					fin[1] = '0'
 				else:
-					if(node.Fout[i].Fin[j][1]=='1' or node.Fout[i].Fin[j][1]==1):
-						sign = 1
-				node.Fout[i].Fin[j] = [node_[0],sign]
+					fin[1] = '1'
+				break
+

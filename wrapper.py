@@ -9,7 +9,6 @@ import critical_parser
 import PathTraversal as draw
 import random
 import sys
-
 def optimize(network, effort):
 	old = network.cloneFull()
 	old2 = old.cloneFull()
@@ -47,5 +46,16 @@ def optimize(network, effort):
 		except Exception as e:
 			i = i+1
 	return old
+			
+if __name__ == '__main__':
+	parserNetwork.parser(sys.argv[1])
+	MIG.convToMIG(parserNetwork.pNtk)
+	print(parserNetwork.pNtk.printNodesExt(parserNetwork.pNtk.PO[0]))
+	p0,p1,ad = draw.create_adjacency(parserNetwork.pNtk)
+	draw.draw_graph(ad,'Boolean Network')
+	network = optimize(parserNetwork.pNtk, 10)
+	p0,p1,ad = draw.create_adjacency(network)
+	draw.draw_graph(ad, 'Optimised Boolean Network')
+	print(network.printNodesExt(network.PO[0]))
 	
 			
